@@ -15,12 +15,11 @@ login=--login-path=alias_root
 echo "Enter name of database:"
 read dbname
 
-mysql $login -e "DROP DATABASE IF EXISTS $dbname;"
-mysql $login -e "CREATE DATABASE $dbname;
+mysql $login -e "CREATE DATABASE IF NOT EXISTS $dbname;
 	USE $dbname;
-	CREATE TABLE Parrots (ID INT(11) PRIMARY KEY, Name varchar(20), Gender char(1), Colour varchar (20));
-	INSERT INTO Parrots (Name,Gender,Colour) VALUES('Kiesha', 'M', 'Green');
-	INSERT INTO Parrots (Name,Gender,Colour) VALUES('Chica', 'W', 'Blue');"
+	CREATE TABLE IF NOT EXISTS Parrots (ID INT(11) AUTO_INCREMENT PRIMARY KEY, Name varchar(20), Gender char(1), Colour varchar (20));
+	REPLACE INTO Parrots (Name,Gender,Colour) VALUES('Kiesha', 'M', 'Green');
+	REPLACE INTO Parrots (Name,Gender,Colour) VALUES('Chica', 'W', 'Blue');"
 
 echo "Preconditions:"
 echo "DATABASE $dbname with TABLE Parrots was created"
