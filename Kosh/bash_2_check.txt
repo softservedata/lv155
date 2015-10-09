@@ -1,0 +1,21 @@
+echo "test renamed file "
+
+echo "input old name of file "
+
+read old_name
+
+echo "input new name of file "
+
+read new_name
+
+if [ ! -f $old_name ] && [ -f $new_name ] && [ -s $new_name ]
+
+then
+
+echo "file successful renamed "
+
+else
+
+echo "file not renamed or size of file==0 "
+
+fi
