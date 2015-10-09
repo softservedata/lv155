@@ -1,0 +1,12 @@
+echo "Enter username "
+read user
+test= "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = $user )"
+if [ mysql -u root -p $rootpw -e "$test" ]
+then
+echo "create username successful "
+echo "enter user password"
+read password
+mysql -u $user -p $password -e "SHOW DATABASE"
+else
+echo "username exist"
+fi

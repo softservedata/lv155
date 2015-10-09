@@ -1,0 +1,10 @@
+echo "Enter  username "
+read user
+echo " Enter user password "
+read password
+echo "Enter dbname"
+read dbname
+nu="CREATE USER '$user'@'localhost' IDENTIFIED BY  '$password';GRANT ALL PRIVILEGES ON $dbname.* TO $user@localhost;FLUSH PRIVILEGES;"
+
+mysql -u root -p $rootpw -e "$nu"
+echo " end script"
