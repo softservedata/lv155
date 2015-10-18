@@ -24,10 +24,6 @@ mysql $login -e "CREATE DATABASE IF NOT EXISTS $dbname;
 echo "Preconditions:"
 echo "DATABASE $dbname with TABLE Parrots was created"
 
-mysql $login -e "USE $dbname;
-                 SHOW DATABASES;
-                 SELECT * FROM Parrots;"
-
 #Make backup of $dbname:
 
 echo "Creating backup of database"
