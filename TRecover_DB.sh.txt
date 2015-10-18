@@ -17,12 +17,16 @@ read dbname
 
 mysql $login -e "CREATE DATABASE IF NOT EXISTS $dbname;
 	USE $dbname;
-	CREATE TABLE IF NOT EXISTS Parrots (Name varchar(20), Gender char(1), Colour varchar (20));
-	REPLACE INTO Parrots (Name,Gender,Colour) VALUES('Kiesha', 'M', 'Green');
-	REPLACE INTO Parrots (Name,Gender,Colour) VALUES('Chica', 'W', 'Blue');"
+	CREATE TABLE IF NOT EXISTS Parrots (id INT, Name varchar(20), Gender char(1), Colour varchar (20), PRIMARY KEY (id));
+    REPLACE INTO Parrots (id, Name,Gender,Colour) VALUES(1, 'Kiesha', 'M', 'Green');
+    REPLACE INTO Parrots (id, Name,Gender,Colour) VALUES(2, 'Chica', 'W', 'Blue');"
 
 echo "Preconditions:"
 echo "DATABASE $dbname with TABLE Parrots was created"
+
+mysql $login -e "USE $dbname;
+                 SHOW DATABASES;
+                 SELECT * FROM Parrots;"
 
 #Make backup of $dbname:
 
