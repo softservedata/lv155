@@ -1,0 +1,64 @@
+#!/bin/bash
+
+SETCOLOR_SUCCESS="echo -en \\033[1;32m"
+SETCOLOR_FAILURE="echo -en \\033[1;31m"
+SETCOLOR_NORMAL="echo -en \\033[0;39m"
+
+#Preconditions:
+
+mysql_config_editor set --login-path=alias_root --host=localhost --user=root --password --skip-warn
+
+login=--login-path=alias_root
+
+#Create database:	
+			
+echo "Enter name of database:"
+read dbname
+
+mysql $login -e "CREATE DATABASE IF NOT EXISTS $dbname;
+	USE $dbname;
+	CREATE TABLE IF NOT EXISTS Parrots (id INT, Name varchar(20), Gender char(1), Colour varchar (20), PRIMARY KEY (id));
+    REPLACE INTO Parrots (id, Name,Gender,Colour) VALUES(1, 'Kiesha', 'M', 'Green');
+    REPLACE INTO Parrots (id, Name,Gender,Colour) VALUES(2, 'Chica', 'W', 'Blue');"
+
+echo "Preconditions:"
+echo "DATABASE $dbname with TABLE Parrots was created"
+
+mysql $login -e "USE $dbname;
+                 SHOW DATABASES;
+                 SELECT * FROM Parrots;"
+
+#Make backup of $dbname:
+
+echo "Creating backup of database"
+Curdate=$(date +%Y-%m-%d-%H)
+
+if [ -d "/home/MySQL_backup/$Curdate" ]
+then
+	rm -rf $Curdate
+fi
+	
+mkdir -p /home/MySQL_backup/$Curdate
+
+mysqldump $login $dbname > "/home/MySQL_backup/$Curdate/$dbname.sql"
+echo "Backup of $dbname created"
+mysql $login -e "DROP DATABASE $dbname;"
+echo "$dbname is cleared"
+mysql $login -e "Show databases;"
+echo "Preconditions prepared"
+
+mysql $login -e "CREATE DATABASE $dbname;"
+echo "Restore $dbname from backup"
+mysql $login $dbname < "/home/MySQL_backup/$Curdate/$dbname.sql"
+
+if [ $? -eq 0 ]; then
+    $SETCOLOR_SUCCESS
+    echo -n "$(tput hpa $(tput cub 6))$(tput cub 6)[OK]"
+    $SETCOLOR_NORMAL
+    echo -e "\nDATABASE $dbname restored"
+else
+    $SETCOLOR_FAILURE
+    echo -n "$(tput hpa $(tput cub 6))$(tput cub 6)[fail]"
+    $SETCOLOR_NORMAL
+    echo -e "\nDATABASE $dbname restored"
+fi

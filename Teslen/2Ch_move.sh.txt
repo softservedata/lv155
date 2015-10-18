@@ -1,0 +1,55 @@
+#!/bin/bash
+#Checking move
+
+SETCOLOR_SUCCESS="echo -en \\033[1;32m"
+SETCOLOR_FAILURE="echo -en \\033[1;31m"
+SETCOLOR_NORMAL="echo -en \\033[0;39m"
+
+echo "Enter name of file"
+read name
+echo "Enter path to a source folder"
+read source
+echo "Enter path to a destination folder"
+read destin
+
+echo "Checking if file exist in destination folder"
+
+if [ -f $destin/$name ]; then
+    $SETCOLOR_SUCCESS
+    echo -n "$(tput hpa $(tput cub 6))$(tput cub 6)[OK]"
+    $SETCOLOR_NORMAL
+    echo -e "\nFile $name exists in $destin"
+	
+	if [[ -s $destin/$name && -f $destin/$name ]]; then
+       $SETCOLOR_SUCCESS
+       echo -n "$(tput hpa $(tput cub 6))$(tput cub 6)[OK]"
+       $SETCOLOR_NORMAL
+       echo -e "\nSize of file $name is not equal 0"
+    elif [[-f $destin/$name ]]; then
+       $SETCOLOR_FAILURE
+       echo -n "$(tput hpa $(tput cub 6))$(tput cub 6)[fail]"
+       $SETCOLOR_NORMAL
+       echo -e "Size of file $name is equal 0"
+    else
+       break
+    fi  
+else
+    $SETCOLOR_FAILURE
+    echo -n "$(tput hpa $(tput cub 6))$(tput cub 6)[fail]"
+    $SETCOLOR_NORMAL
+    echo -e "\nFile $name does not exists in $destin"
+fi  
+
+echo "Checking if file exist in source folder"
+   
+if [ -f $source/$name ]; then
+    $SETCOLOR_FAILURE
+    echo -n "$(tput hpa $(tput cub 6))$(tput cub 6)[fail]"
+    $SETCOLOR_NORMAL
+    echo -e "\nFile $name exists in $source"
+else
+    $SETCOLOR_SUCCESS
+    echo -n "$(tput hpa $(tput cub 6))$(tput cub 6)[OK]"
+    $SETCOLOR_NORMAL
+    echo -e "\nFile $name does not exists in $source"
+fi
