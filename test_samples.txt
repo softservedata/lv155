@@ -1,0 +1,29 @@
+*** Setting ***  Value
+Library  OperatingSystem
+Library  ./lib/samples_roboter.py
+Default Tagshaimhuan daily-ready
+Resource  ./res/samples_resource.txt
+Suite Setup  Sample Suite Setup
+Suite Teardown  Sample Suite Teardown
+*** Variable ***
+${PASS}PASS
+*** Test Case ***
+Sample Hello World
+[setup]  Log  Hello World SetupWARN
+${ret}=  Hello World
+Should Be Equal As Strings  ${ret}  ${PASS}
+Sample Common Func
+[teardown]  Log  Hello World TeardownWARN
+Sample Hello Robot
+[setup]  Log  Hello Robot SetupWARN
+${ret}=  Hello Robotkey_in
+Should Be Equal As Strings  ${ret}FAIL
+[teardown]  Log  Hello Robot TeardownWARN
+*** Keyword ***
+Sample Suite Setup
+Log  Sample Suite Setup CalledWARN
+Sample Suite Teardown
+Log  Sample Suite Teardown CalledWARN
+Hello World
+Log  Hello WorldWARN 
+[return]PASS
