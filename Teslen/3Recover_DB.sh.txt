@@ -8,8 +8,6 @@ SETCOLOR_NORMAL="echo -en \\033[0;39m"
 
 mysql_config_editor set --login-path=alias_root --host=localhost --user=root --password --skip-warn
 
-if [ $? -ne 0 ]; then exit; fi
-
 login=--login-path=alias_root
 
 #Create database:	
@@ -49,8 +47,8 @@ echo "$dbname is deleted"
 mysql $login -e "Show databases;"
 echo "Preconditions prepared"
 
-mysql $login -e "CREATE DATABASE $dbname;"
 echo "Restore $dbname from backup"
+mysql $login -e "CREATE DATABASE $dbname;"
 echo "##############################   (100%)"
 
 mysql $login $dbname < "/home/MySQL_backup/$Curdate/$dbname.sql"
@@ -64,5 +62,5 @@ else
     $SETCOLOR_FAILURE
     echo -n "$(tput hpa $(tput cub 6))$(tput cub 6)[fail]"
     $SETCOLOR_NORMAL
-    echo -e "\nDATABASE $dbname restored"
+    echo -e "\nDATABASE $dbname is not restored"
 fi
