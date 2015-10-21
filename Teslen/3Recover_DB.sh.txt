@@ -8,10 +8,7 @@ SETCOLOR_NORMAL="echo -en \\033[0;39m"
 
 mysql_config_editor set --login-path=alias_root --host=localhost --user=root --password --skip-warn
 
-if [ $? -eq 0 ]; then break
-else 
-     exit
-fi
+if [ $? -ne 0 ]; then exit; fi
 
 login=--login-path=alias_root
 
@@ -54,9 +51,9 @@ echo "Preconditions prepared"
 
 mysql $login -e "CREATE DATABASE $dbname;"
 echo "Restore $dbname from backup"
-mysql $login $dbname < "/home/MySQL_backup/$Curdate/$dbname.sql"
-
 echo "##############################   (100%)"
+
+mysql $login $dbname < "/home/MySQL_backup/$Curdate/$dbname.sql"
 
 if [ $? -eq 0 ]; then
     $SETCOLOR_SUCCESS
