@@ -8,6 +8,11 @@ SETCOLOR_NORMAL="echo -en \\033[0;39m"
 
 mysql_config_editor set --login-path=alias_root --host=localhost --user=root --password --skip-warn
 
+if [ $? -eq 0 ]; then break
+else 
+     exit
+fi
+
 login=--login-path=alias_root
 
 #Create database:	
@@ -20,10 +25,7 @@ mysql $login -e "CREATE DATABASE IF NOT EXISTS $dbname;
 	CREATE TABLE IF NOT EXISTS Parrots (id INT, Name varchar(20), Gender char(1), Colour varchar (20), PRIMARY KEY (id));
     REPLACE INTO Parrots (id, Name,Gender,Colour) VALUES(1, 'Kiesha', 'M', 'Green');
     REPLACE INTO Parrots (id, Name,Gender,Colour) VALUES(2, 'Chica', 'W', 'Blue');"
-if [ $? -eq 0 ]; then break
-else 
-     exit
-fi
+
 echo "Preconditions:"
 echo "DATABASE $dbname with TABLE Parrots was created"
 
@@ -46,13 +48,15 @@ mkdir -p /home/MySQL_backup/$Curdate
 mysqldump $login $dbname > "/home/MySQL_backup/$Curdate/$dbname.sql"
 echo "Backup of $dbname created"
 mysql $login -e "DROP DATABASE $dbname;"
-echo "$dbname is cleared"
+echo "$dbname is deleted"
 mysql $login -e "Show databases;"
 echo "Preconditions prepared"
 
 mysql $login -e "CREATE DATABASE $dbname;"
 echo "Restore $dbname from backup"
 mysql $login $dbname < "/home/MySQL_backup/$Curdate/$dbname.sql"
+
+echo "##############################   (100%)"
 
 if [ $? -eq 0 ]; then
     $SETCOLOR_SUCCESS
