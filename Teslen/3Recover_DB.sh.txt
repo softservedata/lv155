@@ -20,7 +20,10 @@ mysql $login -e "CREATE DATABASE IF NOT EXISTS $dbname;
 	CREATE TABLE IF NOT EXISTS Parrots (id INT, Name varchar(20), Gender char(1), Colour varchar (20), PRIMARY KEY (id));
     REPLACE INTO Parrots (id, Name,Gender,Colour) VALUES(1, 'Kiesha', 'M', 'Green');
     REPLACE INTO Parrots (id, Name,Gender,Colour) VALUES(2, 'Chica', 'W', 'Blue');"
-
+if [ $? -eq 0 ]; then break
+else 
+     exit
+fi
 echo "Preconditions:"
 echo "DATABASE $dbname with TABLE Parrots was created"
 
