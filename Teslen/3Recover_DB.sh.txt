@@ -30,7 +30,6 @@ mysql $login -e "USE $dbname;
 
 #Make backup of $dbname:
 
-echo "Creating backup of database"
 Curdate=$(date +%Y-%m-%d-%H)
 
 if [ -d "/home/MySQL_backup/$Curdate" ]
